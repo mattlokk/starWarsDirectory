@@ -1,25 +1,25 @@
 <html>
     <head>
         <script type='text/javascript' src='dataservice.js'></script>
-        <script type='text/javascript' src='people.js'></script>
+        <script type='text/javascript' src='ships.js'></script>
         <link rel='stylesheet' type='text/css' href='site.css'>
-        <link rel='stylesheet' type='text/css' href='people.css'>
+        <link rel='stylesheet' type='text/css' href='ships.css'>
     </head>
     <body onload='load()'>
         <div class='header'>
             <h1>Star Wars Directory</h1>
             <a href='index.html'>Home</a>
-            <span>People</span>
+            <a href='people.html'>People</a>
             <a href='planets.html'>Planets</a>
-            <a href='ships.html'>Ships</a>
+            <span>Ships</span>
         </div>
         <div class='body'>
             <input type='button' id='prevPage' onclick="prevPage()" value="<" class='pageButton' disabled>
             <ul id='pageLinks'></ul>
             <input type='button' id='nextPage' onclick="nextPage()" value=">" class='pageButton' />
-            <div id='personGrid'>  
+            <div id='shipsGrid'>  
             </div>
-            <div id='personDetail'></div>
+            <div id='shipDetail'></div>
             <div id='splash'></div>
         </div>
     </body>

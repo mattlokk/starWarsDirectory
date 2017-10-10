@@ -1,18 +1,18 @@
-var Planets;
+var Ships;
 var SelectedTile;
-var planetDetail;
+var ShipDetail;
 var PageIndex;
 
 
 function load(){ //This gets called 1 time - when the page is first loaded. It is invoked by the "onload" event on the <body>
-    planetDetail = document.getElementById('planetDetail');
+    ShipDetail = document.getElementById('shipDetail');
     PageIndex = 1;
     update();    
 }
 
 function update(){
-    dataService.getCollection("planets", PageIndex).then(function(data){    
-        Planets = data;
+    dataService.getCollection("starships", PageIndex).then(function(data){    
+        Ships = data;
         bind();
     });
 }
@@ -29,7 +29,7 @@ function prevPage(){
 function nextPage(){
     PageIndex ++;
     document.getElementById('prevPage').disabled = false;
-    if (PageIndex * 10 >= Planets.count){
+    if (PageIndex * 10 >= Ships.count){
         document.getElementById('nextPage').disabled = true;
     }
     update();
@@ -41,7 +41,7 @@ function navToPage(){
         document.getElementById('prevPage').disabled = true;
         document.getElementById('nextPage').disabled = false;
     }
-    else if (PageIndex * 10 >= Planets.count){
+    else if (PageIndex * 10 >= Ships.count){
         document.getElementById('nextPage').disabled = true;
         document.getElementById('prevPage').disabled = false;
     }
@@ -55,7 +55,7 @@ function navToPage(){
 function bind(){
     var pageLinks = document.getElementById('pageLinks');
     while (pageLinks.firstChild) { pageLinks.removeChild(pageLinks.firstChild); }
-    for (var i = 1; ((i-1) * 10) < Planets.count; i++){
+    for (var i = 1; ((i-1) * 10) < Ships.count; i++){
         var pageLink = document.createElement("li");
         pageLink.value = i;
         pageLink.innerText = i;
@@ -68,26 +68,26 @@ function bind(){
         pageLinks.appendChild(pageLink);
     }
 
-    var gridBody = document.getElementById('planetGrid');
+    var gridBody = document.getElementById('shipsGrid');
     while (gridBody.firstChild) { gridBody.removeChild(gridBody.firstChild); }
-    if (Planets.results){
-        for (var i = 0; i < Planets.results.length; i++){
-            planet = Planets.results[i];
-            var planetTile = document.createElement("div");
-            planetTile.planetId = i;
-            planetTile.className = "planetTile";
-            planetTile.innerText = planet.name;
-            planetTile.addEventListener("click", function(){
-                if (SelectedTile) { SelectedTile.className = "planetTile"; }
+    if (Ships.results){
+        for (var i = 0; i < Ships.results.length; i++){
+            ship = Ships.results[i];
+            var shipTile = document.createElement("div");
+            shipTile.shipId = i;
+            shipTile.className = "shipTile";
+            shipTile.innerText = ship.name;
+            shipTile.addEventListener("click", function(){
+                if (SelectedTile) { SelectedTile.className = "shipTile"; }
                 this.className += " selected";
                 SelectedTile = this;
-                selectplanet(this.planetId);
+                selectship(this.shipId);
             });
-            gridBody.appendChild(planetTile);
+            gridBody.appendChild(shipTile);
         }
     }
 }
 
-function selectplanet(id){
-    planetDetail.innerText = Planets.results[id].name;
+function selectship(id){
+    shipDetail.innerText = Ships.results[id].name;
 }
