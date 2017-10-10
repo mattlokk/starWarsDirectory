@@ -1,5 +1,5 @@
 var RootUrl;
-var Data;
+var People;
 var SelectedTile;
 var PersonDetail;
 var PageIndex;
@@ -12,7 +12,8 @@ function load(){
 }
 
 function update(){
-    getData("people").then(function(){    
+    getData("people").then(function(data){    
+        People = data;
         bind();
     });
 }
@@ -29,7 +30,7 @@ function prevPage(){
 function nextPage(){
     PageIndex ++;
     document.getElementById('prevPage').disabled = false;
-    if (PageIndex * 10 >= Data.count){
+    if (PageIndex * 10 >= People.count){
         document.getElementById('nextPage').disabled = true;
     }
     update();
@@ -41,7 +42,7 @@ function navToPage(){
         document.getElementById('prevPage').disabled = true;
         document.getElementById('nextPage').disabled = false;
     }
-    else if (PageIndex * 10 >= Data.count){
+    else if (PageIndex * 10 >= People.count){
         document.getElementById('nextPage').disabled = true;
         document.getElementById('prevPage').disabled = false;
     }
@@ -55,7 +56,7 @@ function navToPage(){
 function bind(){
     var pageLinks = document.getElementById('pageLinks');
     while (pageLinks.firstChild) { pageLinks.removeChild(pageLinks.firstChild); }
-    for (var i = 1; ((i-1) * 10) < Data.count; i++){
+    for (var i = 1; ((i-1) * 10) < People.count; i++){
         var pageLink = document.createElement("li");
         pageLink.value = i;
         pageLink.innerText = i;
@@ -70,9 +71,9 @@ function bind(){
 
     var gridBody = document.getElementById('personGrid');
     while (gridBody.firstChild) { gridBody.removeChild(gridBody.firstChild); }
-    if (Data.results){
-        for (var i = 0; i < Data.results.length; i++){
-            person = Data.results[i];
+    if (People.results){
+        for (var i = 0; i < People.results.length; i++){
+            person = People.results[i];
             var personTile = document.createElement("div");
             personTile.personId = i;
             personTile.className = "personTile";
@@ -89,13 +90,20 @@ function bind(){
 }
 
 function selectPerson(id){
-    PersonDetail.innerText = Data.results[id].name;
+    PersonDetail.innerText = People.results[id].name;
 }
 
 function getData(endpoint, id){
-    return fetch(RootUrl + '/' + endpoint + '/?page=' + PageIndex, { method: 'GET' }).then(function (response) {
+    var url = RootUrl + '/' + endpoint;
+    if (id){
+        url += '/' + id;
+    }
+    else{
+        url += '/?page=' + PageIndex;
+    }
+    return fetch(url, { method: 'GET' }).then(function (response) {
         return response.json();
     }).then(function (body) {
-        Data = body;
+        return body;
     });
 }
