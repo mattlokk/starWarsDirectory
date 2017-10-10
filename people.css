@@ -1,0 +1,28 @@
+#personGrid{
+    overflow: hidden;
+}
+
+.personTile{
+    background-color: #ccc;
+    margin: 10px;
+    height: 50px;
+    line-height: 50px;
+    width: 460px;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+}
+
+.personTile.selected{
+    background-color: #333;
+    color: #ccc;
+    cursor: default;
+}
+
+#personDetail{
+    width: calc(100% - 60px);
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #bbb;
+    height: 200px;
+}

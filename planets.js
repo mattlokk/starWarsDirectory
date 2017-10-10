@@ -1,18 +1,17 @@
-var RootUrl;
 var People;
 var SelectedTile;
-var PersonDetail;
+var planetDetail;
 var PageIndex;
 
-function load(){
-    RootUrl = 'https://swapi.co/api';
-    PersonDetail = document.getElementById('personDetail');
+
+function load(){ //This gets called 1 time - when the page is first loaded. It is invoked by the "onload" event on the <body>
+    planetDetail = document.getElementById('planetDetail');
     PageIndex = 1;
-    update();
+    update();    
 }
 
 function update(){
-    getData("people").then(function(data){    
+    dataService.getCollection("planets", PageIndex).then(function(data){    
         People = data;
         bind();
     });
@@ -69,41 +68,26 @@ function bind(){
         pageLinks.appendChild(pageLink);
     }
 
-    var gridBody = document.getElementById('personGrid');
+    var gridBody = document.getElementById('planetGrid');
     while (gridBody.firstChild) { gridBody.removeChild(gridBody.firstChild); }
     if (People.results){
         for (var i = 0; i < People.results.length; i++){
-            person = People.results[i];
-            var personTile = document.createElement("div");
-            personTile.personId = i;
-            personTile.className = "personTile";
-            personTile.innerText = person.name;
-            personTile.addEventListener("click", function(){
-                if (SelectedTile) { SelectedTile.className = "personTile"; }
+            planet = People.results[i];
+            var planetTile = document.createElement("div");
+            planetTile.planetId = i;
+            planetTile.className = "planetTile";
+            planetTile.innerText = planet.name;
+            planetTile.addEventListener("click", function(){
+                if (SelectedTile) { SelectedTile.className = "planetTile"; }
                 this.className += " selected";
                 SelectedTile = this;
-                selectPerson(this.personId);
+                selectplanet(this.planetId);
             });
-            gridBody.appendChild(personTile);
+            gridBody.appendChild(planetTile);
         }
     }
 }
 
-function selectPerson(id){
-    PersonDetail.innerText = People.results[id].name;
-}
-
-function getData(endpoint, id){
-    var url = RootUrl + '/' + endpoint;
-    if (id){
-        url += '/' + id;
-    }
-    else{
-        url += '/?page=' + PageIndex;
-    }
-    return fetch(url, { method: 'GET' }).then(function (response) {
-        return response.json();
-    }).then(function (body) {
-        return body;
-    });
+function selectplanet(id){
+    planetDetail.innerText = People.results[id].name;
 }
