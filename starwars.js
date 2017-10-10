@@ -35,6 +35,23 @@ function nextPage(){
     update();
 }
 
+function navToPage(){
+    PageIndex = this.value;
+    if (PageIndex == 1){
+        document.getElementById('prevPage').disabled = true;
+        document.getElementById('nextPage').disabled = false;
+    }
+    else if (PageIndex * 10 >= Data.count){
+        document.getElementById('nextPage').disabled = true;
+        document.getElementById('prevPage').disabled = false;
+    }
+    else{
+        document.getElementById('nextPage').disabled = false;
+        document.getElementById('prevPage').disabled = false;
+    }
+    update();
+}
+
 function bind(){
     var pageLinks = document.getElementById('pageLinks');
     while (pageLinks.firstChild) { pageLinks.removeChild(pageLinks.firstChild); }
@@ -46,16 +63,7 @@ function bind(){
             pageLink.className = "selected";
         }
         else{
-            pageLink.addEventListener("click", function(){
-                PageIndex = this.value;
-                if (PageIndex == 1){
-                    document.getElementById('prevPage').disabled = true;
-                }
-                else if (PageIndex * 10 >= Data.count){
-                    document.getElementById('nextPage').disabled = true;
-                }
-                update();
-            });
+            pageLink.addEventListener("click", navToPage);
         }
         pageLinks.appendChild(pageLink);
     }
