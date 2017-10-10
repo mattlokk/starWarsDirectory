@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <script type='text/javascript' src='starwars.js'></script>
+        <link rel='stylesheet' type='text/css' href='starwars.css'>
+    </head>
+    <body onload='load()'>
+        <div class='header'>
+            <h1>Star Wars Directory</h1>
+        </div>
+        <div class='body'>
+            <input type='button' id='prevPage' onclick="prevPage()" value="<" class='pageButton' disabled>
+            <ul id='pageLinks'></ul>
+            <input type='button' id='nextPage' onclick="nextPage()" value=">" class='pageButton' />
+            <div id='personGrid'>  
+            </div>
+            <div id='personDetail'></div>
+            <div id='splash'></div>
+        </div>
+    </body>
+</html>
